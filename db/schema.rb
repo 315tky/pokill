@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_120442) do
+ActiveRecord::Schema.define(version: 2020_02_09_015548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 2020_02_08_120442) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "killmail_items", force: :cascade do |t|
+    t.integer "killmail_id"
+    t.string "item_type_id"
+    t.integer "flag"
+    t.integer "quantity_destroyed"
+    t.integer "quantity_dropped"
+    t.integer "singleton"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "killmails", force: :cascade do |t|
     t.integer "killmail_id"
     t.datetime "killmail_time"
@@ -40,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_120442) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "victim_id"
     t.integer "victim_ship_id"
+    t.index ["killmail_id"], name: "index_killmails_on_killmail_id", unique: true
   end
 
 end

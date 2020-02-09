@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  killmail_id: 1
+  item_type_id: MyString
+  flag: 1
+  quantity_destroyed: 1
+  quantity_dropped: 1
+  singleton: 1
+
+two:
+  killmail_id: 1
+  item_type_id: MyString
+  flag: 1
+  quantity_destroyed: 1
+  quantity_dropped: 1
+  singleton: 1
