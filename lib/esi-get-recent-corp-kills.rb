@@ -59,9 +59,13 @@ pp "got all meta killmails"
     all_meta_killmails.each do |meta_killmail|
        killmail_id = meta_killmail.killmail_id
        unless Killmail.find_by(killmail_id: killmail_id)
-         for_import.push(meta_killmail)
+         meta_hash_id = {}
+         meta_hash_id["killmail_hash"] = meta_killmail.killmail_hash
+         meta_hash_id["killmail_id"]   = meta_killmail.killmail_id
+         for_import.push(meta_hash_id)
        end
     end
+    for_import = for_import.uniq
     return for_import
   end
 
@@ -73,8 +77,8 @@ pp "starting to look up single mails from meta"
     }
     single_killmails = []
     for_import.each do |e|
-      killmail_hash = e.killmail_hash
-      killmail_id   = e.killmail_id
+      killmail_hash = e['killmail_hash']
+      killmail_id   = e['killmail_id']
       begin
         single_killmail = @api_instance.get_killmails_killmail_id_killmail_hash(killmail_hash, killmail_id, single_killmail_opts)
         single_killmails.push(single_killmail)
@@ -82,6 +86,7 @@ pp "starting to look up single mails from meta"
 	 @logger.error "Exception when calling KillmailsApi->get_killmails_killmail_id_killmail_hash: #{e}"
       end
     end
+    pp single_killmails
     return single_killmails
   end
 
