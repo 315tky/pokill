@@ -65,7 +65,7 @@ pp "got all meta killmails"
          for_import.push(meta_hash_id)
        end
     end
-    for_import = for_import.uniq
+    for_import = for_import.uniq # de-duplicate because CCP has dup killmails with same hash and id
     return for_import
   end
 
@@ -86,7 +86,7 @@ pp "starting to look up single mails from meta"
 	 @logger.error "Exception when calling KillmailsApi->get_killmails_killmail_id_killmail_hash: #{e}"
       end
     end
-    pp single_killmails
+# pp single_killmails
     return single_killmails
   end
 
@@ -101,6 +101,10 @@ pp "starting to look up single mails from meta"
                             "victim_damage_taken"   => killmail.victim.damage_taken ||= '',
 			                      "victim_position"       => killmail.victim.position.to_json ||= '',
                             "victim_ship_id"        => killmail.victim.ship_type_id ||= '' }
+      km = Killmail.create(killmail_details)
+      km.save
+
+      killmail.attackers.each do |attacker|
 
       killmail_attackers = killmail.attackers.map { |attacker| { "killmail_id" => killmail.killmail_id ||= '',
                                                                  "attacker_id" => attacker.character_id ||= '',
@@ -109,13 +113,23 @@ pp "starting to look up single mails from meta"
                                                                  "damage_done" => attacker.damage_done ||= '',
                                                                  "final_blow"  => attacker.final_blow ||= false,
                                                                  "security_status" => attacker.security_status ||= '',
-                                                                 "ship_type_id"  => attacker.ship_type_id ||= '',
                                                                  "weapon_type_id" => attacker.weapon_type_id ||= ''
                                                                  } }
+
       killmail_attackers.each do |attacker|
-        KillmailAttacker.create(attacker)
+        km.killmail_attackers.create(attacker)
       end
-      Killmail.create(killmail_details)
+
+      killmail_items = killmail.victim.items.map { |killmail_item| { "killmail_id"  => killmail.killmail_id ||= '',
+                                                                     "item_type_id" => killmail_item.item_type_id ||= '',
+                                                                     "flag"         => killmail_item.flag ||= '',
+                                                                     "quantity_destroyed" => killmail_item.quantity_destroyed ||= '',
+                                                                     "quantity_dropped"   => killmail_item.quantity_dropped ||= '',
+                                                                     "singleton"          => killmail_item.singleton || ''
+                                                                   } }
+      killmail_items.each do |item|
+        km.killmail_items.create(item)
+      end
     end
   end
 
