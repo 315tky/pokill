@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  killmail_id: 1
+  attacker_id: 1
+  corporation_id: 1
+  alliance_id: 1
+  damage_done: 1
+  final_blow: false
+  security_status: 1
+  ship_type_id: 1
+  weapon_type_id: 1
+
+two:
+  killmail_id: 1
+  attacker_id: 1
+  corporation_id: 1
+  alliance_id: 1
+  damage_done: 1
+  final_blow: false
+  security_status: 1
+  ship_type_id: 1
+  weapon_type_id: 1

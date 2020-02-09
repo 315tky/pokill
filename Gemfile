@@ -6,6 +6,8 @@ ruby '2.6.5'
 # Manually added eve esi client swagger gem
 gem 'swagger_client', :git => 'https://github.com/315tky/eve-esi-api-swagger-gem.git'
 
+gem 'mysql2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 # Use postgresql as the database for Active Record

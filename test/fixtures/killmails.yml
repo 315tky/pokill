@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  killmail_id: 1
+  killmail_time: 2020-02-08 15:37:47
+  solar_system_id: 1
+  victim_corporation_id: 1
+  victim_damage_taken: 1
+  victim_position: 
+
+two:
+  killmail_id: 1
+  killmail_time: 2020-02-08 15:37:47
+  solar_system_id: 1
+  victim_corporation_id: 1
+  victim_damage_taken: 1
+  victim_position: 

@@ -4,8 +4,8 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Ignore database creds
-/config/database.yml
+# Ignore .rbenv-vars environment files
+/.rbenv-vars
 # Ignore bundler config.
 /.bundle
 

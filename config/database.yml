@@ -23,8 +23,21 @@ default: &default
 
 development:
   <<: *default
-  database: pokill_development
+  database: <%= ENV['POKILL_DEV_DBNAME'] %>
+  username: <%= ENV['POKILL_DEV_USERNAME'] %>
+  password: <%= ENV['POKILL_DEV_PASSWORD'] %>
+  host: <%= ENV['POKILL_DEV_HOST'] %>
 
+eve_development:
+  adapter: mysql2
+  database: <%= ENV['EVE_DEV_DBNAME'] %>
+  username: <%= ENV['EVE_DEV_USERNAME'] %>
+  password: <%= ENV['EVE_DEV_PASSWORD'] %>
+  encoding: utf8
+  pool: 5
+  host: <%= ENV['EVE_DEV_HOST'] %>
+  #port: [mysql_port]
+  #socket: [path_to_mysql_socket_file]
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
