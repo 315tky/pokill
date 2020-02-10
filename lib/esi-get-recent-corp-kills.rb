@@ -91,44 +91,44 @@ pp "starting to look up single mails from meta"
   end
 
   def import_killmail_details(single_killmails)
+    ActiveRecord::Base.transaction do
+      single_killmails.each do |killmail|
+        killmail_details = {  "killmail_id"     => killmail.killmail_id ||= '',
+                              "killmail_time"   => killmail.killmail_time ||= '',
+                              "solar_system_id" => killmail.solar_system_id ||= '',
+                              "victim_id"       => killmail.victim.character_id ||= '',
+                              "victim_corporation_id" => killmail.victim.corporation_id ||= '',
+                              "victim_damage_taken"   => killmail.victim.damage_taken ||= '',
+  			                      "victim_position"       => killmail.victim.position.to_json ||= '',
+                              "victim_ship_id"        => killmail.victim.ship_type_id ||= '' }
+        km = Killmail.create(killmail_details)
+        km.save
 
-    single_killmails.each do |killmail|
-      killmail_details = {  "killmail_id"     => killmail.killmail_id ||= '',
-                            "killmail_time"   => killmail.killmail_time ||= '',
-                            "solar_system_id" => killmail.solar_system_id ||= '',
-                            "victim_id"       => killmail.victim.character_id ||= '',
-                            "victim_corporation_id" => killmail.victim.corporation_id ||= '',
-                            "victim_damage_taken"   => killmail.victim.damage_taken ||= '',
-			                      "victim_position"       => killmail.victim.position.to_json ||= '',
-                            "victim_ship_id"        => killmail.victim.ship_type_id ||= '' }
-      km = Killmail.create(killmail_details)
-      km.save
+        killmail.attackers.each do |attacker|
+          killmail_attackers = killmail.attackers.map { |attacker| { "killmail_id" => killmail.killmail_id ||= '',
+                                                                     "attacker_id" => attacker.character_id ||= '',
+                                                                     "corporation_id" => attacker.corporation_id ||= '',
+                                                                     "alliance_id" => attacker.alliance_id ||= '',
+                                                                     "damage_done" => attacker.damage_done ||= '',
+                                                                     "final_blow"  => attacker.final_blow ||= false,
+                                                                     "security_status" => attacker.security_status ||= '',
+                                                                     "weapon_type_id" => attacker.weapon_type_id ||= ''
+                                                                     } }
 
-      killmail.attackers.each do |attacker|
-
-      killmail_attackers = killmail.attackers.map { |attacker| { "killmail_id" => killmail.killmail_id ||= '',
-                                                                 "attacker_id" => attacker.character_id ||= '',
-                                                                 "corporation_id" => attacker.corporation_id ||= '',
-                                                                 "alliance_id" => attacker.alliance_id ||= '',
-                                                                 "damage_done" => attacker.damage_done ||= '',
-                                                                 "final_blow"  => attacker.final_blow ||= false,
-                                                                 "security_status" => attacker.security_status ||= '',
-                                                                 "weapon_type_id" => attacker.weapon_type_id ||= ''
-                                                                 } }
-
-      killmail_attackers.each do |attacker|
-        km.killmail_attackers.create(attacker)
-      end
-
-      killmail_items = killmail.victim.items.map { |killmail_item| { "killmail_id"  => killmail.killmail_id ||= '',
-                                                                     "item_type_id" => killmail_item.item_type_id ||= '',
-                                                                     "flag"         => killmail_item.flag ||= '',
-                                                                     "quantity_destroyed" => killmail_item.quantity_destroyed ||= '',
-                                                                     "quantity_dropped"   => killmail_item.quantity_dropped ||= '',
-                                                                     "singleton"          => killmail_item.singleton || ''
-                                                                   } }
-      killmail_items.each do |item|
-        km.killmail_items.create(item)
+          killmail_attackers.each do |each_attacker|
+            km.killmail_attackers.create(each_attacker)
+          end
+        end
+        killmail_items = killmail.victim.items.map { |killmail_item| { "killmail_id"  => killmail.killmail_id ||= '',
+                                                                       "item_type_id" => killmail_item.item_type_id ||= '',
+                                                                       "flag"         => killmail_item.flag ||= '',
+                                                                       "quantity_destroyed" => killmail_item.quantity_destroyed ||= '',
+                                                                       "quantity_dropped"   => killmail_item.quantity_dropped ||= '',
+                                                                       "singleton"          => killmail_item.singleton || ''
+                                                                     } }
+        killmail_items.each do |item|
+          km.killmail_items.create(item)
+        end
       end
     end
   end
