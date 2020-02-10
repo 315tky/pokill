@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_073356) do
+ActiveRecord::Schema.define(version: 2020_02_10_041054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,34 @@ ActiveRecord::Schema.define(version: 2020_02_09_073356) do
     t.integer "victim_id"
     t.integer "victim_ship_id"
     t.index ["killmail_id"], name: "index_killmails_on_killmail_id", unique: true
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.text "region_name"
+    t.integer "region_id"
+    t.integer "constellation_id"
+    t.decimal "x_coord"
+    t.decimal "y_coord"
+    t.decimal "z_coord"
+    t.decimal "radius"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "solarsystems", force: :cascade do |t|
+    t.integer "solar_system_id"
+    t.text "system_name"
+    t.integer "sun_type_id"
+    t.decimal "security"
+    t.text "security_class"
+    t.integer "region_id"
+    t.integer "constellation_id"
+    t.decimal "x_coord"
+    t.decimal "y_coord"
+    t.decimal "z_coord"
+    t.decimal "radius"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
