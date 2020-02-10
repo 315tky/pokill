@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type_id: 1
+  group_id: 1
+  type_name: MyText
+  description: MyText
+  mass: 9.99
+  volume: 9.99
+  capacity: 9.99
+  portionSize: 1
+  race_id: 1
+  base_price: 9.99
+  published: 1
+  market_group_id: 1
+  icon_id: 1
+  sound_id: 1
+  graphic_id: 1
+
+two:
+  type_id: 1
+  group_id: 1
+  type_name: MyText
+  description: MyText
+  mass: 9.99
+  volume: 9.99
+  capacity: 9.99
+  portionSize: 1
+  race_id: 1
+  base_price: 9.99
+  published: 1
+  market_group_id: 1
+  icon_id: 1
+  sound_id: 1
+  graphic_id: 1
