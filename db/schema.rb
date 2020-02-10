@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_041613) do
+ActiveRecord::Schema.define(version: 2020_02_10_114656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,35 @@ ActiveRecord::Schema.define(version: 2020_02_10_041613) do
     t.decimal "y_coord"
     t.decimal "z_coord"
     t.decimal "radius"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "flags", force: :cascade do |t|
+    t.integer "flag_id"
+    t.text "flag_name"
+    t.text "flag_text"
+    t.integer "order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.integer "item_type_id"
+    t.integer "group_id"
+    t.text "type_name"
+    t.text "description"
+    t.decimal "mass"
+    t.decimal "volume"
+    t.decimal "capacity"
+    t.integer "portion_size"
+    t.integer "race_id"
+    t.decimal "base_price"
+    t.integer "published"
+    t.integer "market_group_id"
+    t.integer "icon_id"
+    t.integer "sound_id"
+    t.integer "graphic_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -45,13 +74,13 @@ ActiveRecord::Schema.define(version: 2020_02_10_041613) do
   create_table "killmail_items", force: :cascade do |t|
     t.integer "killmail_id"
     t.string "item_type_id"
-    t.integer "flag"
+    t.integer "flag_id"
     t.integer "quantity_destroyed"
     t.integer "quantity_dropped"
     t.integer "singleton"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["flag", "item_type_id", "killmail_id", "quantity_destroyed", "quantity_dropped"], name: "killmail_item_unique_index", unique: true
+    t.index ["flag_id", "item_type_id", "killmail_id", "quantity_destroyed", "quantity_dropped"], name: "killmail_item_unique_index", unique: true
   end
 
   create_table "killmails", force: :cascade do |t|
@@ -71,7 +100,6 @@ ActiveRecord::Schema.define(version: 2020_02_10_041613) do
   create_table "regions", force: :cascade do |t|
     t.text "region_name"
     t.integer "region_id"
-    t.integer "constellation_id"
     t.decimal "x_coord"
     t.decimal "y_coord"
     t.decimal "z_coord"
