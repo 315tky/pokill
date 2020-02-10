@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_041054) do
+ActiveRecord::Schema.define(version: 2020_02_10_041613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "constellations", force: :cascade do |t|
+    t.text "constellation_name"
+    t.integer "region_id"
+    t.integer "constellation_id"
+    t.decimal "x_coord"
+    t.decimal "y_coord"
+    t.decimal "z_coord"
+    t.decimal "radius"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "killmail_attackers", force: :cascade do |t|
     t.integer "killmail_id"
