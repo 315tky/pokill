@@ -105,27 +105,31 @@ pp "starting to look up single mails from meta"
         km.save
 
         killmail.attackers.each do |attacker|
-          killmail_attackers = killmail.attackers.map { |attacker| { "killmail_id" => killmail.killmail_id ||= '',
-                                                                     "attacker_id" => attacker.character_id ||= '',
-                                                                     "corporation_id" => attacker.corporation_id ||= '',
-                                                                     "alliance_id" => attacker.alliance_id ||= '',
-                                                                     "damage_done" => attacker.damage_done ||= '',
-                                                                     "final_blow"  => attacker.final_blow ||= false,
-                                                                     "security_status" => attacker.security_status ||= '',
-                                                                     "weapon_type_id" => attacker.weapon_type_id ||= ''
-                                                                     } }
-
+          killmail_attackers = killmail
+                               .attackers
+                               .map { |attacker| { "killmail_id"     => killmail.killmail_id ||= '',
+                                                   "attacker_id"     => attacker.character_id ||= '',
+                                                   "corporation_id"  => attacker.corporation_id ||= '',
+                                                   "alliance_id"     => attacker.alliance_id ||= '',
+                                                   "damage_done"     => attacker.damage_done ||= '',
+                                                   "final_blow"      => attacker.final_blow ||= false,
+                                                   "security_status" => attacker.security_status ||= '',
+                                                   "weapon_type_id"  => attacker.weapon_type_id ||= ''
+                                                   } }
           killmail_attackers.each do |each_attacker|
             km.killmail_attackers.create(each_attacker)
           end
         end
-        killmail_items = killmail.victim.items.map { |killmail_item| { "killmail_id"  => killmail.killmail_id ||= '',
-                                                                       "item_type_id" => killmail_item.item_type_id ||= '',
-                                                                       "flag"         => killmail_item.flag ||= '',
-                                                                       "quantity_destroyed" => killmail_item.quantity_destroyed ||= '',
-                                                                       "quantity_dropped"   => killmail_item.quantity_dropped ||= '',
-                                                                       "singleton"          => killmail_item.singleton || ''
-                                                                     } }
+        killmail_items = killmail
+                         .victim
+                         .items
+                         .map { |killmail_item| {  "killmail_id"        => killmail.killmail_id ||= '',
+                                                   "item_type_id"       => killmail_item.item_type_id ||= '',
+                                                   "flag_id"            => killmail_item.flag ||= '',
+                                                   "quantity_destroyed" => killmail_item.quantity_destroyed ||= '',
+                                                   "quantity_dropped"   => killmail_item.quantity_dropped ||= '',
+                                                   "singleton"          => killmail_item.singleton || ''
+                                                 } }
         killmail_items.each do |item|
           km.killmail_items.create(item)
         end
