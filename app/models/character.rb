@@ -6,32 +6,19 @@ class Character < ApplicationRecord
 
      characters_ids.each do |id|
        character_detail = self.esi_lookup(id)
-      # for_import = { "character_id"     => id,
-      #                "name"             => character_detail.name,
-      #                "alliance_id"      => character_detail.alliance_id,
-      #                "ancestry_id"      => character_detail.ancestry_id,
-      #                "birthday"         => character_detail.birthday,
-      #                "bloodline_id"     => character_detail.bloodline_id,
-      #                "corporation_id"   => character_detail.corporation_id,
-      #                "description"      => character_detail.description,
-      #                "gender"           => character_detail.gender,
-      #                "race_id"         => character_detail.race_id,
-      #                "security_status" => character_detail.security_status,
-      #                "title"           => character_detail.title
-      #              }
-       #self.find_or_create_by(character_id: id, name: character_detail.name)
+
        self.find_or_create_by( character_id: id,
-                               name:         character_detail.name,
-                               alliance_id:  character_detail.alliance_id,
-                               ancestry_id:  character_detail.ancestry_id,
-                               birthday:     character_detail.birthday,
-                               bloodline_id: character_detail.bloodline_id,
-                               corporation_id: character_detail.corporation_id,
-                               description:  character_detail.description,
-                               gender:       character_detail.gender,
-                               race_id:      character_detail.race_id,
+                               name:            character_detail.name,
+                               alliance_id:     character_detail.alliance_id,
+                               ancestry_id:     character_detail.ancestry_id,
+                               birthday:        character_detail.birthday,
+                               bloodline_id:    character_detail.bloodline_id,
+                               corporation_id:  character_detail.corporation_id,
+                               description:     character_detail.description,
+                               gender:          character_detail.gender,
+                               race_id:         character_detail.race_id,
                                security_status: character_detail.security_status,
-                               title: character_detail.title )
+                               title:           character_detail.title )
 
      end
    end
