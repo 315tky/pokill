@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_114656) do
+ActiveRecord::Schema.define(version: 2020_02_13_033732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "characters", force: :cascade do |t|
+    t.integer "character_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "alliance_id"
+    t.integer "ancestry_id"
+    t.datetime "birthday"
+    t.integer "bloodline_id"
+    t.integer "corporation_id"
+    t.text "description"
+    t.string "gender"
+    t.integer "race_id"
+    t.decimal "security_status"
+    t.text "title"
+    t.index ["character_id", "name"], name: "index_characters_on_character_id_and_name", unique: true
+  end
 
   create_table "constellations", force: :cascade do |t|
     t.text "constellation_name"
@@ -25,6 +43,25 @@ ActiveRecord::Schema.define(version: 2020_02_10_114656) do
     t.decimal "radius"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "corporations", force: :cascade do |t|
+    t.integer "corporation_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "alliance_id"
+    t.integer "ceo_id"
+    t.integer "creator_id"
+    t.datetime "date_founded"
+    t.text "description"
+    t.integer "home_station_id"
+    t.integer "member_count"
+    t.string "ticker"
+    t.string "url"
+    t.boolean "war_eligible"
+    t.bigint "shares"
+    t.index ["corporation_id", "name"], name: "index_corporations_on_corporation_id_and_name", unique: true
   end
 
   create_table "flags", force: :cascade do |t|
