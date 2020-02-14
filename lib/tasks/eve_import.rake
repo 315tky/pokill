@@ -43,4 +43,19 @@ namespace :eve_import do
   task :items => :environment do
     Item.eve_import
   end
+
+  desc "get_regions_from_local_mysql_import_to_postgres"
+  task :regions => :environment do
+    Region.eve_import
+  end
+
+  desc "get_solarsystems_from_local_mysql_import_to_postgres"
+  task :solarsystems => :environment do
+    Solarsystem.eve_import
+  end
+
+  desc "get_constellations_from_local_mysql_import_to_postgres"
+  task :constellations => :environment do
+    Constellation.eve_import
+  end
 end

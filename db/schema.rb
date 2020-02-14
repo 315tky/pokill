@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_14_072112) do
+ActiveRecord::Schema.define(version: 2020_02_14_080727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_072112) do
     t.decimal "radius"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["region_id", "constellation_id"], name: "index_constellations_on_region_id_and_constellation_id", unique: true
   end
 
   create_table "corporations", force: :cascade do |t|
@@ -145,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_072112) do
     t.decimal "radius"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["region_id"], name: "index_regions_on_region_id", unique: true
   end
 
   create_table "solarsystems", force: :cascade do |t|
@@ -161,6 +163,7 @@ ActiveRecord::Schema.define(version: 2020_02_14_072112) do
     t.decimal "radius"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["solar_system_id"], name: "index_solarsystems_on_solar_system_id", unique: true
   end
 
 end

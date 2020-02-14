@@ -6,28 +6,28 @@ class Region < ApplicationRecord
   def self.eve_import
     ActiveRecord::Base.transaction do
       db_connection = "eve_#{Rails.env}"
-      connect = ActiveRecord::Base.establish_connection(db_connection.to_sym)
-      regions = connect.connection.execute("select regionID,
-                                            regionName,
-                                            radius,
-                                            x,
-                                            y,
-                                            z from mapRegions").to_a
+      ActiveRecord::Base.establish_connection(db_connection.to_sym)
+      regions = ActiveRecord::Base.connection.execute("select regionID,
+                                                        regionName,
+                                                        radius,
+                                                        x,
+                                                        y,
+                                                        z from mapRegions").to_a
       ActiveRecord::Base.connection.close
-
+      for_import = []
       regions.each do |region|
-        for_import = { "region_id"   => region[0],
-                       "region_name" => region[1],
-                       "radius"      => region[2],
-                       "x_coord"     => region[3],
-                       "y_coord"     => region[4],
-                       "z_coord"     => region[5] }
+        regions_hash = { "region_id"   => region[0],
+                         "region_name" => region[1],
+                         "radius"      => region[2],
+                         "x_coord"     => region[3],
+                         "y_coord"     => region[4],
+                         "z_coord"     => region[5] }
+        for_import.push(regions_hash)
+     end
         db_connection = "#{Rails.env}"
-        connect = ActiveRecord::Base.establish_connection(db_connection.to_sym)
-        Region.find_or_create_by(for_import)
+        ActiveRecord::Base.establish_connection(db_connection.to_sym)
+        Region.import for_import, on_duplicate_key_ignore: true # regions should never change so not gonna bother with the on_duplicate_key_update
         ActiveRecord::Base.connection.close
-      end
     end
   end
-
 end
