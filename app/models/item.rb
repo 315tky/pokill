@@ -5,26 +5,26 @@ class Item < ApplicationRecord
   def self.eve_import
     ActiveRecord::Base.transaction do
       db_connection = "eve_#{Rails.env}"
-      connect = ActiveRecord::Base.establish_connection(db_connection.to_sym)
-      items = connect.connection.execute("select typeID,
-                                            groupID,
-                                            typeName,
-                                            description,
-                                            mass,
-                                            volume,
-                                            capacity,
-                                            portionSize,
-                                            raceID,
-                                            basePrice,
-                                            published,
-                                            marketGroupID,
-                                            iconID,
-                                            soundID,
-                                            graphicID from invTypes").to_a
+      ActiveRecord::Base.establish_connection(db_connection.to_sym)
+      items = ActiveRecord::Base.connection.execute("select typeID,
+                                                    groupID,
+                                                    typeName,
+                                                    description,
+                                                    mass,
+                                                    volume,
+                                                    capacity,
+                                                    portionSize,
+                                                    raceID,
+                                                    basePrice,
+                                                    published,
+                                                    marketGroupID,
+                                                    iconID,
+                                                    soundID,
+                                                    graphicID from invTypes").to_a
       ActiveRecord::Base.connection.close
-
+      for_import = []
       items.each do |item|
-        for_import = { "item_type_id"    => item[0],
+        items_hash = { "item_type_id"    => item[0],
                        "group_id"        => item[1],
                        "type_name"       => item[2],
                        "description"     => item[3],
@@ -40,11 +40,27 @@ class Item < ApplicationRecord
                        "sound_id"        => item[13],
                        "graphic_id"      => item[14]
                      }
+          for_import.push(items_hash)
+      end
         db_connection = "#{Rails.env}"
         connect = ActiveRecord::Base.establish_connection(db_connection.to_sym)
-        Item.find_or_create_by(for_import)
+        Item.import for_import, on_duplicate_key_update: { conflict_target: [:item_type_id],
+                                                          columns: [:group_id,
+                                                                    :type_name,
+                                                                    :description,
+                                                                    :mass,
+                                                                    :volume,
+                                                                    :capacity,
+                                                                    :portion_size,
+                                                                    :race_id,
+                                                                    :base_price,
+                                                                    :published,
+                                                                    :market_group_id,
+                                                                    :icon_id,
+                                                                    :sound_id,
+                                                                    :graphic_id ] }
+
         ActiveRecord::Base.connection.close
-      end
     end
   end
 end

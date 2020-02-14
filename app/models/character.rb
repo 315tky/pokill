@@ -4,23 +4,36 @@ class Character < ApplicationRecord
 
    def self.character_import(characters_ids)
 
+     for_import = []
      characters_ids.each do |id|
        character_detail = self.esi_lookup(id)
 
-       self.first_or_create( character_id: id,
-                             name:            character_detail.name,
-                             alliance_id:     character_detail.alliance_id,
-                             ancestry_id:     character_detail.ancestry_id,
-                             birthday:        character_detail.birthday,
-                             bloodline_id:    character_detail.bloodline_id,
-                             corporation_id:  character_detail.corporation_id,
-                             description:     character_detail.description,
-                             gender:          character_detail.gender,
-                             race_id:         character_detail.race_id,
-                             security_status: character_detail.security_status,
-                             title:           character_detail.title )
-
+       import_hash = { "character_id"    => id ||= '',
+                      "name"            => character_detail.name ||= '',
+                      "alliance_id"     => character_detail.alliance_id ||= '',
+                      "ancestry_id"     => character_detail.ancestry_id ||= '',
+                      "birthday"        => character_detail.birthday ||= '',
+                      "bloodline_id"    => character_detail.bloodline_id ||= '',
+                      "corporation_id"  => character_detail.corporation_id ||= '',
+                      "description"     => character_detail.description ||= '',
+                      "gender"          => character_detail.gender ||= '',
+                      "race_id"         => character_detail.race_id ||= '',
+                      "security_status" => character_detail.security_status ||= '',
+                      "title"           => character_detail.title }
+        for_import.push(import_hash)
      end
+     Character.import for_import,
+       on_duplicate_key_update: {conflict_target: [:character_id, :name],
+                                 columns: [:alliance_id,
+                                           :ancestry_id,
+                                           :birthday,
+                                           :bloodline_id,
+                                           :corporation_id,
+                                           :description,
+                                           :gender,
+                                           :race_id,
+                                           :security_status,
+                                           :title ]}
    end
 
    def self.esi_lookup(character_id)  # we have to import from EVE ESI not from SDE

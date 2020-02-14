@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_033732) do
+ActiveRecord::Schema.define(version: 2020_02_14_072112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_033732) do
     t.integer "order_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["flag_id"], name: "index_flags_on_flag_id", unique: true
   end
 
   create_table "items", force: :cascade do |t|
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_033732) do
     t.integer "graphic_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_type_id"], name: "index_items_on_item_type_id", unique: true
   end
 
   create_table "killmail_attackers", force: :cascade do |t|

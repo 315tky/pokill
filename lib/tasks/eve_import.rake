@@ -20,22 +20,27 @@ namespace :eve_import do
   task :characters => :environment do
     killmails = Killmail.all
     victims_ids = killmails.map { |killmail| killmail.victim_id }.compact.uniq
-    victims_ids.each do |id|
-      Character.character_import([id])
-    end
+    Character.character_import(victims_ids)
+
     attackers = KillmailAttacker.all
     attackers_ids = attackers.map { |attacker| attacker.attacker_id }.compact.uniq
-    attackers_ids.each do |id|
-      Character.character_import([id])
-    end
+    Character.character_import(attackers_ids)
   end
 
   desc "get_corporations_from_characters"
   task :corporations => :environment do
     characters = Character.all
     corporations_ids = characters.map { |character| character.corporation_id }.compact.uniq
-    corporations_ids.each do |id|
-      Corporation.corporation_import([id])
-    end
+    Corporation.corporation_import(corporations_ids)
+  end
+
+  desc "get_flags_from_local_mysql_import_to_postgres"
+  task :flags => :environment do
+    Flag.eve_import
+  end
+
+  desc "get_items_from_local_mysql_import_to_postgres"
+  task :items => :environment do
+    Item.eve_import
   end
 end
