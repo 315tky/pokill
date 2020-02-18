@@ -9,16 +9,16 @@ class Solarsystem < ApplicationRecord
       db_connection = "eve_#{Rails.env}"
       ActiveRecord::Base.establish_connection(db_connection.to_sym)
       systems = ActiveRecord::Base.connection.execute("select solarSystemID,
-                                                      solarSystemName,
-                                                      regionID,
-                                                      constellationID,
-                                                      sunTypeID,
-                                                      security,
-                                                      securityClass,
-                                                      radius,
-                                                      x,
-                                                      y,
-                                                      z from mapSolarSystems").to_a
+                                                        solarSystemName,
+                                                        regionID,
+                                                        constellationID,
+                                                        sunTypeID,
+                                                        security,
+                                                        securityClass,
+                                                        radius,
+                                                        x,
+                                                        y,
+                                                        z from mapSolarSystems").to_a
       ActiveRecord::Base.connection.close
       for_import = []
       systems.each do |system|

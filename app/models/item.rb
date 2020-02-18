@@ -1,6 +1,9 @@
 class Item < ApplicationRecord
 
-  has_many :killmail_items, :primary_key => "item_type_id", :foreign_key => "item_type_id"
+  has_many :killmail_items, :foreign_key => "item_type_id", :primary_key => "item_type_id"
+
+  has_many :dgm_type_attributes, :foreign_key => "item_type_id", :primary_key => "item_type_id"
+  has_many :dgm_attribute_types, :through => :dgm_type_attributes
 
   def self.eve_import
     ActiveRecord::Base.transaction do

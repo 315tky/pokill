@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  alliance_id: 1
+  alliance_name: MyString
+  description: MyText
+
+two:
+  alliance_id: 1
+  alliance_name: MyString
+  description: MyText
