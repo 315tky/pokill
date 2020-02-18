@@ -3,7 +3,6 @@ require 'swagger_client'
 require 'net/http'
 require 'uri'
 require 'json'
-require 'pp'
 
  class ImportKillmail
 
@@ -83,12 +82,11 @@ require 'pp'
 	 @logger.error "Exception when calling KillmailsApi->get_killmails_killmail_id_killmail_hash: #{e}"
       end
     end
-# pp single_killmails
     return single_killmails
   end
 
   def import_killmail_details(single_killmails)
-pp "starting imports"
+
     ActiveRecord::Base.transaction do
       for_import = []
       single_killmails.each do |killmail|
@@ -114,6 +112,7 @@ pp "starting imports"
                              "damage_done"     => attacker.damage_done ||= '',
                              "final_blow"      => attacker.final_blow ||= false,
                              "security_status" => attacker.security_status ||= '',
+                             "ship_type_id"    => attacker.ship_type_id ||= '',
                              "weapon_type_id"  => attacker.weapon_type_id ||= ''
                            }
           for_attackers_import.push(attackers_hash)
