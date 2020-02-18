@@ -34,9 +34,26 @@ namespace :eve_import do
     Corporation.corporation_import(corporations_ids)
   end
 
+  desc "get_alliances_from_corporations"
+  task :alliances => :environment do
+    alliances_ids = Corporation.all.pluck(:alliance_id).compact.uniq
+    Alliance.alliance_import(alliances_ids)
+  end
+
   desc "get_flags_from_local_mysql_import_to_postgres"
   task :flags => :environment do
     Flag.eve_import
+  end
+
+  desc "get_dgm_attribute_types_from_local_mysql_import_to_postgres"
+  task :dgm_attribute_types => :environment do
+    DgmAttributeType.eve_import
+  end
+
+# This one is the map between dgm_attributes_types and items :
+  desc "get_dgm_type_attribute_from_local_mysql_import_to_postgres"
+  task :dgm_type_attributes => :environment do
+    DgmTypeAttribute.eve_import
   end
 
   desc "get_items_from_local_mysql_import_to_postgres"
