@@ -1,0 +1,22 @@
+<h1>PO Killz</h1>
+<p>Summary of PO kills</p>
+
+<p> Kills in the last hour : <%= @killmails_last_hour %> </p>
+<p> Kills in the last day : <%= @killmails_last_day %></p>
+<p> Kills in the last week : <%= @killmails_last_week %></p>
+<p> Kills in the last month : <%= @killmails_last_month %></p>
+
+<table>
+    <tr>
+      <th>Killmail Id</th>
+      <th>Victim Id</th>
+      <th>Time of Kill</th>
+    </tr>
+  <% @killmails.each do |killmail| %>
+    <tr>
+      <td><%= killmail.killmail_id %></td>
+      <td><%= killmail.victim_id %></td>
+      <td><%= killmail.killmail_time %></td>
+    </tr>
+<% end %>
+</table>
