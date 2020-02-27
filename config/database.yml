@@ -93,6 +93,17 @@ test:
 #
 production:
   <<: *default
-  database: pokill_production
-  username: pokill
-  password: <%= ENV['POKILL_DATABASE_PASSWORD'] %>
+  database: <%= ENV['POKILL_PROD_DBNAME'] %>
+  username: <%= ENV['POKILL_PROD_USERNAME'] %>
+  password: <%= ENV['POKILL_PROD_PASSWORD'] %>
+  host: <%= ENV['POKILL_PROD_HOST'] %>
+
+eve_production:
+  adapter: mysql2
+  database: <%= ENV['EVE_PROD_DBNAME'] %>
+  username: <%= ENV['EVE_PROD_USERNAME'] %>
+  password: <%= ENV['EVE_PROD_PASSWORD'] %>
+  encoding: utf8
+  pool: 5
+  host: <%= ENV['EVE_PROD_HOST'] %>
+
