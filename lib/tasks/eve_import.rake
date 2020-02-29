@@ -1,8 +1,6 @@
 
 require 'esi-get-recent-corp-kills.rb'
 
-
-
 namespace :eve_import do
 
   corporation_id = 98473505 # paranoia overload eve corp id
@@ -75,4 +73,25 @@ namespace :eve_import do
   task :constellations => :environment do
     Constellation.eve_import
   end
+
+  desc "run_all_eve_esi_import_tasks" 
+  task :all_eve_esi => :environment do
+    ActiveRecord::Base.transaction do 
+      tsks = %w[killmails characters corporations alliances]
+      tsks.each do |tsk| 
+	Rake::Task["eve_import:#{tsk}"].invoke
+      end
+    end
+  end
+
+  desc "run_all_eve_mysql_import_tasks"
+  task :all_eve_mysql => :environment do
+    ActiveRecord::Base.transaction do
+      tsks = %w[constellations dgm_attribute_types dgm_type_attributes flags items regions solarsystems ]
+      tsks.each do |tsk|
+        Rake::Task["eve_import:#{tsk}"].invoke
+      end
+    end
+  end
+
 end

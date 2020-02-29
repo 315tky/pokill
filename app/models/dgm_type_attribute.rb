@@ -24,7 +24,7 @@ class DgmTypeAttribute < ApplicationRecord
       end
         db_connection = "#{Rails.env}" # std dev or prod postgres db connection
         ActiveRecord::Base.establish_connection(db_connection.to_sym)
-        DgmTypeAttribute.import for_import, on_duplicate_key_ignore: true
+        DgmTypeAttribute.import for_import, batch_size: 1000, on_duplicate_key_ignore: true
         ActiveRecord::Base.connection.close
     end
   end

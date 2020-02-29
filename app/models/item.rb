@@ -47,7 +47,7 @@ class Item < ApplicationRecord
       end
         db_connection = "#{Rails.env}"
         connect = ActiveRecord::Base.establish_connection(db_connection.to_sym)
-        Item.import for_import, on_duplicate_key_update: { conflict_target: [:item_type_id],
+        Item.import for_import, batch_size: 1000, on_duplicate_key_update: { conflict_target: [:item_type_id],
                                                           columns: [:group_id,
                                                                     :type_name,
                                                                     :description,
